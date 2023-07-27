@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
@@ -29,6 +31,31 @@ namespace WcfServiceLibrary
         int IService1.GetTotalMarks(Student s)
         {
             return s.s1 + s.s2+s.s3; 
+        }
+
+        public List<Country> GetCountries()
+        {
+            List<Country> list = new List<Country>();
+            string conString = "Data Source=(localdb)\\MSSQLLocalDB;initial catalog=WCFDB;integrated Security=true";
+            SqlConnection sqlConnection = new SqlConnection(conString);
+
+            SqlCommand sqlCommand = new SqlCommand("Select * from Country",sqlConnection);
+
+            sqlConnection.Open();
+
+            SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+
+            while(sqlDataReader.Read())
+            {
+                Country country = new Country();
+                country.CountryId = int.Parse(sqlDataReader[0].ToString());
+                country.CountryName= sqlDataReader[1].ToString();
+                list.Add(country);
+            }
+            sqlDataReader.Close();
+            sqlConnection.Close();
+
+            return list; 
         }
     }
 }

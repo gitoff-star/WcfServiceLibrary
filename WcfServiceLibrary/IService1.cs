@@ -21,7 +21,20 @@ namespace WcfServiceLibrary
         [OperationContract]
         int getAvgMarks(int s1, int s2, int s3);
 
+
+        [OperationContract]
+        List<Country> GetCountries();
+
         // TODO: Add your service operations here
+    }
+
+    [DataContract]
+    public class Country
+    {
+        [DataMember]
+        public int CountryId { get; set; }    
+        [DataMember]
+        public string CountryName { get; set; } 
     }
 
     [DataContract] //DataContract is to serialze class to use it over network
