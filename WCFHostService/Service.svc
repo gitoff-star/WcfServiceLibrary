@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Service="ServiceReference1.Service1" %>
